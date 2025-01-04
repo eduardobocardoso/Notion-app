@@ -13,18 +13,7 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f8ff;
-        }
-
-        .container {
             background-color: white;
-            padding: 20px;
-            border: 2px solid black;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         .timer {
@@ -65,20 +54,18 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="timer" id="timer">00:00:00</div>
-        <div class="buttons">
-            <button onclick="startTimer()">Start</button>
-            <button onclick="pauseTimer()">Pause</button>
-            <button onclick="resetTimer()">Reset</button>
-        </div>
-        <div class="shortcut-buttons">
-            <button onclick="addTime(5)">+5 Min</button>
-            <button onclick="addTime(10)">+10 Min</button>
-            <button onclick="addTime(25)">+25 Min</button>
-        </div>
-        <div class="celebration" id="celebration">🎉 Time's up! 🎉</div>
+    <div class="timer" id="timer">00:00:00</div>
+    <div class="buttons">
+        <button onclick="startTimer()">Start</button>
+        <button onclick="pauseTimer()">Pause</button>
+        <button onclick="resetTimer()">Reset</button>
     </div>
+    <div class="shortcut-buttons">
+        <button onclick="addTime(5)">+5 Min</button>
+        <button onclick="addTime(10)">+10 Min</button>
+        <button onclick="addTime(25)">+25 Min</button>
+    </div>
+    <div class="celebration" id="celebration">🎉 Time's up! 🎉</div>
 
     <script>
         let timerInterval;
