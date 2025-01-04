@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+
+        .timer {
+            width: 300px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid black;
+            background-color: white;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .shortcut-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .shortcut-buttons button {
+            padding: 10px;
+        }
+
+        .celebration {
+            display: none;
+            font-size: 2rem;
+            color: green;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="timer" id="timer">00:00:00</div>
+    <div class="buttons">
+        <button onclick="startTimer()">Start</button>
+        <button onclick="pauseTimer()">Pause</button>
+        <button onclick="resetTimer()">Reset</button>
+    </div>
+    <div class="shortcut-buttons">
+        <button onclick="setTimeInSeconds(1)">1 sec</button>
+        <button onclick="addTime(5)">+5 Min</button>
+        <button onclick="addTime(10)">+10 Min</button>
+        <button onclick="addTime(25)">+25 Min</button>
+    </div>
+    <div class="celebration" id="celebration">🎉 Time's up! 🎉</div>
+
+    <audio id="alarmSound">
+        <source src="https://www.soundjay.com/button/beep-10.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        let timerInterval;
+        let timeInSeconds = 0;
+        let isRunning = false;
+
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600).toString().padStart(2, '0');
+            const mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${hrs}:${mins}:${secs}`;
+        }
+
+        function updateTimerDisplay() {
+            document.getElementById('timer').textContent = formatTime(timeInSeconds);
+        }
+
+        function startTimer() {
+            if (!isRunning && timeInSeconds > 0) {
+                isRunning = true;
+                timerInterval = setInterval(() => {
+                    if (timeInSeconds > 0) {
+                        timeInSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        document.getElementById('celebration').style.display = 'block';
+                        const alarm = document.getElementById('alarmSound');
+                        alarm.play().catch(error => console.error("Audio playback failed:", error));
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timeInSeconds = 0;
+            updateTimerDisplay();
+            document.getElementById('celebration').style.display = 'none';
+        }
+
+        function addTime(minutes) {
+            timeInSeconds += minutes * 60;
+            updateTimerDisplay();
+        }
+
+        function setTimeInSeconds(seconds) {
+            pauseTimer();
+            timeInSeconds = seconds;
+            updateTimerDisplay();
+            document.getElementById('celebration').style.display = 'none';
+        }
+
+        updateTimerDisplay();
+    </script>
+</body>
+</html>
